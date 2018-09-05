@@ -1,32 +1,69 @@
 //
 //  main.c
-//  BubbleSort
+//  LinkedList
 //
 //  Created by Daniil Shilintsev on 05/09/2018.
 //  Copyright © 2018 Daniil Shilintsev. All rights reserved.
 //
 
-#include <stdio.h>
+#include<stdio.h>
+#include<stdlib.h>
 
-void swap(int *a, int *b){
-    int temp = *a;
-    *a = *b;
-    *b = temp;
-}
+struct node{
+    int data;
+    struct node *next;
+};
 
-void Bubblesort(int arr[], int n){
-    int i, j;
-    for (i = 0; i < n-1; i++)
-        for (j = 0; j < n-i-1; j++)
-            if (arr[j] > arr[j+1])
-                swap(&arr[j], &arr[j+1]);
-}
-
-int main(int argc, const char * argv[]) {
-    int ar[6] = {1,4,2,6,8,3};
-    Bubblesort(ar, 6);
-    for(int s = 0; s<6;s++){
-        printf("%d ", ar[s]);
+void printList(struct node *n){
+    while (n != NULL){
+        printf(" %d ", n->data);
+        n = n->next;
     }
-    return 0;
+}
+
+void insert(struct node *n, struct node *head){
+    struct node* last = head;
+    struct node* someNode;
+    while (last != NULL){
+        someNode = last;
+        last = last->next;
+    }
+    someNode->next = n;
+}
+
+void delete(struct node *head){
+    struct node* last = head;
+    struct node* someNode;
+    someNode = last;
+    while (last != NULL){
+        if(last->next == NULL){
+            someNode->next = NULL;
+        }
+        someNode = last;
+        last = last->next;
+    }
+}
+
+int main(){
+    struct node* head = (struct node*)malloc(sizeof(struct node));
+    struct node* second = (struct node*)malloc(sizeof(struct node));
+    struct node* third = (struct node*)malloc(sizeof(struct node));
+    
+    head->data = 1;
+    head->next = second;
+    second->data = 2;
+    second->next = third;
+    third->data = 3;
+    third->next = NULL;
+    
+    printList(head);
+    printf("\n");
+    struct node* newNode = (struct node*)malloc(sizeof(struct node));
+    newNode->data = 4;
+    newNode->next = NULL;
+    insert(newNode, head);
+    printList(head);
+    printf("\n");
+    delete(head);
+    printList(head);
 }
